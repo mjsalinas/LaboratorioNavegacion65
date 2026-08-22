@@ -9,9 +9,9 @@ import IMCTab from '../screens/tabs/IMCTab';
 import ProfileTab from '../screens/tabs/ProfileTab';
 
 export type TabsParamList = {
-  Home: { email: string };
-  IMC: { email: string };
-  Profile: { email: string };
+  Inicio: { email: string };
+  IMC: undefined;
+  Perfil: { email: string };
 };
 
 const Tab = createBottomTabNavigator<TabsParamList>();
@@ -29,11 +29,11 @@ export default function TabsNavigator() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName: keyof typeof Ionicons.glyphMap = 'home';
 
-          if (route.name === 'Home') {
+          if (route.name === 'Inicio') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'IMC') {
             iconName = focused ? 'calculator' : 'calculator-outline';
-          } else if (route.name === 'Profile') {
+          } else if (route.name === 'Perfil') {
             iconName = focused ? 'person' : 'person-outline';
           }
 
@@ -44,17 +44,16 @@ export default function TabsNavigator() {
       })}
     >
       <Tab.Screen 
-        name="Home" 
+        name="Inicio" 
         component={HomeTab} 
         initialParams={{ email }} 
       />
       <Tab.Screen 
         name="IMC" 
         component={IMCTab} 
-        initialParams={{ email }} 
       />
       <Tab.Screen 
-        name="Profile" 
+        name="Perfil" 
         component={ProfileTab} 
         initialParams={{ email }} 
       />

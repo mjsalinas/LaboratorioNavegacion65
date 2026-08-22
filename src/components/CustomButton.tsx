@@ -1,10 +1,33 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function CustomButton() {
+type Props = {
+  title: string;
+  onPress: () => void;
+  variant?: 'primary' | 'secondary' | 'danger';
+};
+
+export default function CustomButton({ title, onPress, variant = 'primary' }: Props) {
+  const styles = getStyles(variant);
   return (
-    <View>
-      <Text>CustomButton</Text>
-    </View>
+    <TouchableOpacity style={styles.button} onPress={onPress}>
+      <Text style={styles.text}>{title}</Text>
+    </TouchableOpacity>
   );
 }
+
+const getStyles = (variant: 'primary' | 'secondary' | 'danger') =>
+  StyleSheet.create({
+    button: {
+      borderRadius: 8,
+      padding: 14,
+      marginVertical: 8,
+      alignItems: 'center',
+      backgroundColor:
+        variant === 'primary'
+          ? '#5f0650'
+          : variant === 'secondary'
+          ? '#888888'
+          : '#c0392b',
+    },
+    text: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
+  });
