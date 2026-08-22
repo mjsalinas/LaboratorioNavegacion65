@@ -42,10 +42,24 @@ export default function CustomInput({
       : 'default';
 
   const getError = () => {
-    if (type === 'email' && !value.includes('@')) return 'Correo invalido';
-    if (type === 'password' && value.length < 4) return 'Contrasena muy corta';
-    if (type === 'number' && value.length < 8) return 'Numero invalido';
-  };
+  if (type === 'email' && !value.includes('@')) {
+    return 'Correo invalido';
+  }
+
+  if (type === 'password' && value.length < 4) {
+    return 'Contrasena muy corta';
+  }
+
+  if (type === 'number') {
+    const numero = Number(value.trim());
+
+    if (value.trim() !== '' && Number.isNaN(numero)) {
+      return 'Numero invalido';
+    }
+  }
+
+  return undefined;
+};
 
   const error = getError();
 
