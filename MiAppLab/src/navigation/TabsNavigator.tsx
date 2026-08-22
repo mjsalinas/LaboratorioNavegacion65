@@ -28,8 +28,7 @@ export default function TabsNavigator() {
 
           if (route.name === 'Inicio') iconName = 'home';
           else if (route.name === 'IMC') iconName = 'fitness';
-          else if (route.name === 'Perfil') iconName = 'person';
-
+          else if (route.name === 'Perfil') iconName = 'pers
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
