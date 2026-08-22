@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 import TabsNavigator from './TabsNavigator';
 
-// 1. Tipado del Stack
+
 export type RootStackParamList = {
   Login: undefined;
   MainTabs: { email: string };  
