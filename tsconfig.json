@@ -3,10 +3,10 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@components/": ["./src/components/index.ts"],
-      "@navigation/": ["./src/navigation/index.ts"],
+      "@components/*": ["./src/components/*"],
+      "@navigation/*": ["./src/navigation/*"],
       "@screens/*": ["./src/screens/*"],
-      "@tabs/": ["./src/screens/tabs/index.ts"]
+      "@tabs/*": ["./src/screens/tabs/*"]
     }
   }
 }
