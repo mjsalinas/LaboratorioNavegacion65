@@ -10,7 +10,7 @@ import {
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 type Props = {
-  type?: 'text' | 'email' | 'password' | 'number';
+  type?: 'text' | 'email' | 'password' | 'number' | 'phone';
   placeholder: string;
   value: string;
   onChange: (text: string) => void;
@@ -28,11 +28,11 @@ export default function CustomInput({
   let icon: keyof typeof MaterialIcons.glyphMap | undefined;
   if (type === 'email') icon = 'alternate-email';
   else if (type === 'password') icon = 'lock';
-  else if (type === 'number') icon = 'phone-android';
+  else if (type === 'phone') icon = 'phone-android';
 
   let keyboard: KeyboardTypeOptions = 'default';
   if (type === 'email') keyboard = 'email-address';
-  else if (type === 'number') keyboard = 'phone-pad';
+  else if (type === 'phone' || type === 'number') keyboard = 'phone-pad';
 
   const getError = () => {
     if (!value) return undefined;
@@ -42,8 +42,11 @@ export default function CustomInput({
     if (type === 'password' && value.length < 4) {
       return 'Contrasena muy corta';
     }
-    if (type === 'number' && value.length < 8) {
-      return 'Numero invalido';
+    if (type === 'phone' && value.length < 8) {
+      return 'Numero telefonico invalido';
+    }
+    if (type === 'number' && isNaN(Number(value))) {
+      return 'Debe ser un valor numerico';
     }
     return undefined;
   };
