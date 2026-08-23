@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { RouteProp } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import HomeTab from '../screens/tabs/HomeTab';
 import IMCTab from '../screens/tabs/IMCTab';
 import ProfileTab from '../screens/tabs/ProfileTab';
+import { RootStackParamList } from './StackNavigator';
 
 // Tipado de los Tabs
 export type TabsParamList = {
@@ -15,8 +17,11 @@ export type TabsParamList = {
 const Tab = createBottomTabNavigator<TabsParamList>();
 
 type TabRouteProp = RouteProp<TabsParamList, keyof TabsParamList>;
+type Props = NativeStackScreenProps<RootStackParamList, 'MainTabs'>;
 
-export default function TabsNavigator() {
+export default function TabsNavigator({ route }: Props) {
+  const { email } = route.params;
+
   return (
     <Tab.Navigator
       screenOptions={({ route }: { route: TabRouteProp }) => ({
@@ -28,14 +33,15 @@ export default function TabsNavigator() {
 
           if (route.name === 'Inicio') iconName = 'home';
           else if (route.name === 'IMC') iconName = 'fitness';
-          else if (route.name === 'Perfil') iconName = 'person'; 
+          else if (route.name === 'Perfil') iconName = 'person';
+
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
-      <Tab.Screen name='Inicio' component={HomeTab} />
+      <Tab.Screen name='Inicio' component={HomeTab} initialParams={{ email }} />
       <Tab.Screen name='IMC' component={IMCTab} />
-      <Tab.Screen name='Perfil' component={ProfileTab} />
+      <Tab.Screen name='Perfil' component={ProfileTab} initialParams={{ email }} />
     </Tab.Navigator>
   );
 }
