@@ -30,10 +30,11 @@ export default function CustomInput({ type = 'text', placeholder, value, onChang
     type === 'number' ? 'phone-pad' : 'default';
 
   const getError = () => {
-    if (type === 'email' && !value.includes('@')) return 'Correo invalido';
-    if (type === 'password' && value.length < 4) return 'Contrasena muy corta';
-    if (type === 'number' && value.length < 8) return 'Numero invalido';
-  };
+  if (!value) return undefined;
+  if (type === 'email' && !value.includes('@')) return 'Correo invalido';
+  if (type === 'password' && value.length < 4) return 'Contrasena muy corta';
+  if (type === 'number' && value.length < 8) return 'Numero invalido';
+};
 
   const error = getError();
 
