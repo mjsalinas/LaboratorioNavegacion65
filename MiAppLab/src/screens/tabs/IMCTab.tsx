@@ -1,63 +1,55 @@
-import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../navigation/StackNavigator';
-import { View, Text, StyleSheet, TextInput,TouchableOpacity, Button } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useState } from 'react';
+import CustomInput from '../../components/CustomInput';
+import CustomButton from '../../components/CustomButton';
 
+export default function IMCTab() {
+  const [peso, setPeso] = useState('');
+  const [altura, setAltura] = useState('');
+  const [resultado, setResultado] = useState<number | null>(null);
 
-  export default function IMCTab({ }) {
- 
-const [peso, setPeso] = useState('');
-const [altura, setAltura] = useState('');
-const [imc, setImc] = useState('');
+  const calcular = () => {
+    const p = parseFloat(peso);
+    const a = parseFloat(altura) / 100;
+    if (p > 0 && a > 0) {
+      setResultado(Math.round((p / (a * a)) * 10) / 10);
+    }
+  };
 
-function calcularIMC() {
+  const getCategoria = (imc: number) => {
+    if (imc < 18.5) return { label: 'Bajo peso', color: '#3498db' };
+    if (imc < 25)   return { label: 'Normal',    color: '#27ae60' };
+    if (imc < 30)   return { label: 'Sobrepeso', color: '#e67e22' };
+    return                  { label: 'Obesidad',  color: '#c0392b' };
+  };
 
-    
-
-  const pesoNum = parseFloat(peso);
-  const alturaNum = parseFloat(altura);
-
-  if (!isNaN(pesoNum) && !isNaN(alturaNum) && alturaNum > 0) {
-    const imcCalculado = pesoNum / (alturaNum * alturaNum);
-    setImc(imcCalculado.toFixed(2));
-  } else {
-    setImc('Datos inválidos');
-  }}
-
- return (
+  return (
     <View style={styles.container}>
-      <Text>IMC Tab</Text> 
-      <Text>Peso en KG</Text>
-
-      <TextInput 
-      value={peso}
-      onChangeText={setPeso}
-      placeholder="Ingrese su peso en KG"
-      keyboardType="numeric"
-      style={{ borderWidth: 1, borderColor: 'gray', padding: 5, marginBottom: 10, width: 200 }}
-      />
-      <Text>Altura en M</Text>
-      <TextInput
-        value={altura}
-        onChangeText={setAltura}
-        placeholder="Ingrese su altura en M"
-        keyboardType="numeric"
-        style={{ borderWidth: 1, borderColor: 'gray', padding: 5, marginBottom: 10, width: 200 }}
-      />
-        <TouchableOpacity onPress={calcularIMC} style={{ backgroundColor: 'blue', padding: 10, borderRadius: 5 }}>
-          <Text style={{ color: 'white' }}>Calcular IMC</Text>
-          <Text>IMC: {imc}</Text>
-        </TouchableOpacity>
+      <Text style={styles.title}>Calculadora de IMC</Text>
+      <CustomInput type='number' placeholder='Peso (kg)'
+        value={peso} onChange={setPeso} />
+      <CustomInput type='number' placeholder='Altura (cm)'
+        value={altura} onChange={setAltura} />
+      <CustomButton title='Calcular' onPress={calcular} />
+      {resultado !== null && (() => {
+        const cat = getCategoria(resultado);
+        return (
+          <View style={styles.result}>
+            <Text style={styles.imcNum}>{resultado}</Text>
+            <Text style={[styles.categoria, { color: cat.color }]}>
+              {cat.label}
+            </Text>
+          </View>
+        );
+      })()}
     </View>
   );
 }
-      
-    
 
- const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',   },
-
-})
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 24, justifyContent: 'center' },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, color: '#5f0650' },
+  result: { alignItems: 'center', marginTop: 24 },
+  imcNum: { fontSize: 64, fontWeight: 'bold', color: '#5f0650' },
+  categoria: { fontSize: 22, fontWeight: '600', marginTop: 4 },
+});
