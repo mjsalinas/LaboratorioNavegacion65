@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 
@@ -9,6 +9,7 @@ export default function IMCTab() {
   const [resultado, setResultado] = useState<number | null>(null);
 
   const calcular = () => {
+    Keyboard.dismiss();
     const p = parseFloat(peso);
     const a = parseFloat(altura) / 100; // cm → metros
     if (p > 0 && a > 0) {
@@ -24,6 +25,7 @@ export default function IMCTab() {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Text style={styles.title}>Calculadora de IMC</Text>
       <CustomInput type="number" placeholder="Peso (kg)" value={peso} onChange={setPeso} />
@@ -39,6 +41,7 @@ export default function IMCTab() {
         );
       })()}
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
