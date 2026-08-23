@@ -33,10 +33,11 @@ export default function CustomInput({ type = 'text', placeholder, value, onChang
   if (!value) return undefined;
   if (type === 'email' && !value.includes('@')) return 'Correo invalido';
   if (type === 'password' && value.length < 4) return 'Contrasena muy corta';
-  if (type === 'number' && value.length < 8) return 'Numero invalido';
+  if (type === 'number' && (isNaN(Number(value)) || Number(value) <= 0)) return 'Numero invalido';
 };
 
   const error = getError();
+  
 
   return (
     <View style={styles.wrapper}>
