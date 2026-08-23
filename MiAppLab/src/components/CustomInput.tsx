@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { TextInput, TouchableOpacity, View, Text, StyleSheet, KeyboardTypeOptions } from 'react-native';
 
 type Props = {
-    type?: 'text' | 'email' | 'password' | 'number';
+    type?: 'text' | 'email' | 'password' | 'phone-number' | 'number';
     placeholder: string;
     value: string;
     onChange: (text: string) => void;
@@ -16,16 +16,22 @@ export default function CustomInput({ type = 'text', placeholder, value, onChang
     const icon: typeof MaterialIcons['name'] | undefined =
         type === 'email' ? 'alternate-email' :
             type === 'password' ? 'lock' :
-                type === 'number' ? 'phone-android' : undefined;
+                type === 'phone-number' ? 'phone-android' : undefined;
 
     const keyboard: KeyboardTypeOptions =
         type === 'email' ? 'email-address' :
-            type === 'number' ? 'phone-pad' : 'default';
+            type === 'phone-number' ? 'phone-pad' : 'default';
 
     const getError = () => {
         if (type === 'email' && !value.includes('@')) return 'Correo invalido';
         if (type === 'password' && value.length < 4) return 'Contrasena muy corta';
-        if (type === 'number' && value.length < 8) return 'Numero invalido';
+        if (type === 'phone-number' && value.length < 8) return 'Número invalido';
+        
+        if (type === 'number') {
+            if (value.length === 0) return 'Campo requerido';
+            if (isNaN(Number(value))) return 'Debe ser un número válido';
+        }
+        
     };
     const error = getError();
     return (
