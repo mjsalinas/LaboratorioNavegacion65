@@ -7,6 +7,8 @@ import {
   Text,
   StyleSheet,
   KeyboardTypeOptions,
+  Keyboard,
+  ReturnKeyTypeOptions,
 } from 'react-native';
 
 type Props = {
@@ -14,6 +16,8 @@ type Props = {
   placeholder: string;
   value: string;
   onChange: (text: string) => void;
+  returnKeyType?: ReturnKeyTypeOptions;
+  onSubmitEditing?: () => void;
 };
 
 export default function CustomInput({
@@ -21,6 +25,8 @@ export default function CustomInput({
   placeholder,
   value,
   onChange,
+  returnKeyType = 'done',
+  onSubmitEditing,
 }: Props) {
   const [secure, setSecure] = useState(type === 'password');
   const isPassword = type === 'password';
@@ -36,7 +42,7 @@ export default function CustomInput({
     type === 'email'
       ? 'email-address'
       : type === 'number'
-      ? 'phone-pad'
+      ? 'numeric'
       : 'default';
 
   const getError = () => {
@@ -58,6 +64,9 @@ export default function CustomInput({
           style={styles.input}
           secureTextEntry={secure}
           keyboardType={keyboard}
+          returnKeyType={returnKeyType}
+          blurOnSubmit={true}
+          onSubmitEditing={onSubmitEditing || Keyboard.dismiss}
         />
         {isPassword && (
           <TouchableOpacity onPress={() => setSecure(!secure)}>

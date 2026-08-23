@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 
@@ -9,6 +9,7 @@ export default function IMCTab() {
   const [resultado, setResultado] = useState<number | null>(null);
 
   const calcular = () => {
+    Keyboard.dismiss();
     const p = parseFloat(peso);
     const a = parseFloat(altura) / 100; // cm → metros
     if (p > 0 && a > 0) {
@@ -24,34 +25,40 @@ export default function IMCTab() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Calculadora de IMC</Text>
-      <CustomInput
-        type="number"
-        placeholder="Peso (kg)"
-        value={peso}
-        onChange={setPeso}
-      />
-      <CustomInput
-        type="number"
-        placeholder="Altura (cm)"
-        value={altura}
-        onChange={setAltura}
-      />
-      <CustomButton title="Calcular" onPress={calcular} />
-      {resultado !== null &&
-        (() => {
-          const cat = getCategoria(resultado);
-          return (
-            <View style={styles.result}>
-              <Text style={styles.imcNum}>{resultado}</Text>
-              <Text style={[styles.categoria, { color: cat.color }]}>
-                {cat.label}
-              </Text>
-            </View>
-          );
-        })()}
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Calculadora de IMC</Text>
+        <CustomInput
+          type="number"
+          placeholder="Peso (kg)"
+          value={peso}
+          onChange={setPeso}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss}
+        />
+        <CustomInput
+          type="number"
+          placeholder="Altura (cm)"
+          value={altura}
+          onChange={setAltura}
+          returnKeyType="done"
+          onSubmitEditing={calcular}
+        />
+        <CustomButton title="Calcular" onPress={calcular} />
+        {resultado !== null &&
+          (() => {
+            const cat = getCategoria(resultado);
+            return (
+              <View style={styles.result}>
+                <Text style={styles.imcNum}>{resultado}</Text>
+                <Text style={[styles.categoria, { color: cat.color }]}>
+                  {cat.label}
+                </Text>
+              </View>
+            );
+          })()}
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
