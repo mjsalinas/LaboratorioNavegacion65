@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Keyboard } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 
@@ -9,6 +9,7 @@ export default function IMCTab() {
   const [resultado, setResultado] = useState<number | null>(null);
 
   const calcular = () => {
+      Keyboard.dismiss();
     const p = parseFloat(peso);
     const a = parseFloat(altura) / 100;
 

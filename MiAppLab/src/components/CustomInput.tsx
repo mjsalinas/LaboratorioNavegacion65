@@ -45,7 +45,7 @@ export default function CustomInput({
     if (type === 'email' && !value.includes('@')) return 'Correo invalido';
     if (type === 'password' && value.length < 4)
       return 'Contrasena muy corta';
-    if (type === 'number' && value.length < 8)
+    if (type === 'number' && (value.length < 1 || value.length > 3))
       return 'Numero invalido';
   };
 
