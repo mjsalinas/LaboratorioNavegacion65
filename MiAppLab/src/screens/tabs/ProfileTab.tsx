@@ -2,10 +2,10 @@ import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../navigation/StackNavigator';
 import { View, Text, StyleSheet, TextInput,TouchableOpacity, Button } from 'react-native';
 import { useState } from 'react';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { TabsParamList } from '../../navigation/TabsNavigator';
 
-type Props = {
-  route: RouteProp<RootStackParamList, 'MainTabs'>;
-};
+type Props = BottomTabScreenProps<TabsParamList, 'Perfil'>;
 
 export default function ProfileTab({ route }: Props) {
   const { email } = route.params;   
