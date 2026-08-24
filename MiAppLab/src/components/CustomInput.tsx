@@ -51,7 +51,7 @@ export default function CustomInput({
       return 'Contrasena muy corta';
     }
 
-    if (type === 'number' && value.length < 8) {
+    if (type === 'number' && value !== '' && value.length < 2) {
       return 'Numero invalido';
     }
 
